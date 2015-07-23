@@ -1,0 +1,1 @@
+Simple playground for akka + camel stack.
