@@ -6,9 +6,7 @@ import org.apache.camel.builder.RouteBuilder
 
 object RoundTrip {
   def build(implicit system: ActorSystem) = {
-    val camel = CamelExtension(system)
-
-    camel.context.addRoutes(new RouteBuilder() {
+    CamelExtension(system).context.addRoutes(new RouteBuilder() {
       override def configure() {
         from("vm:input").to("vm:output")
       }
