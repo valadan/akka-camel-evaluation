@@ -17,20 +17,14 @@ object HttpTrip {
           .enrich("vm:google-call")
           .choice()
           .when(header(Exchange.HTTP_RESPONSE_CODE).isEqualTo(200))
-          .to("vm:google-response-ok")
-          .otherwise()
-          .to("vm:google-response-fail")
-
-        from("vm:google-response-ok")
           .unmarshal().json(JsonLibrary.Jackson, classOf[SearchResult])
           .to("vm:googled")
-
-        from("vm:google-response-fail")
+          .otherwise()
           .setBody(constant("Fail - boom boom!"))
           .to("vm:googled")
 
         from("vm:google-call")
-          .setHeader(Exchange.HTTP_QUERY, simple("key=" + apiKey + "&cx=001733240814555448082s:yqsjy6oesoq&q=${body}"))
+          .setHeader(Exchange.HTTP_QUERY, simple("key=" + apiKey + "&cx=001733240814555448082:yqsjy6oesoq&q=${body}"))
           .to("https4://www.googleapis.com/customsearch/v1?throwExceptionOnFailure=false")
       }
     })
