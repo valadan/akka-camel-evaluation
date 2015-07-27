@@ -1,4 +1,4 @@
-package org.rbudzko.ace.roundtrip
+package org.rbudzko.ace
 
 import akka.actor.{ActorSystem, Props}
 import akka.camel.CamelExtension
@@ -12,7 +12,7 @@ object RoundTrip {
       }
     })
 
-    system.actorOf(Props[ConsumingWorker])
-    system.actorOf(Props[ProducingWorker])
+    system.actorOf(Props(classOf[ConsumingWorker], "direct-vm://output"))
+    system.actorOf(Props(classOf[ProducingWorker], "direct-vm://input"))
   }
 }

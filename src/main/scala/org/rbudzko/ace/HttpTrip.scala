@@ -1,4 +1,4 @@
-package org.rbudzko.ace.httptrip
+package org.rbudzko.ace
 
 import java.util
 
@@ -29,8 +29,8 @@ object HttpTrip {
       }
     })
 
-    system.actorOf(Props[ConsumingWorker])
-    system.actorOf(Props[ProducingWorker])
+    system.actorOf(Props(classOf[ConsumingWorker], "direct-vm://googled"))
+    system.actorOf(Props(classOf[ProducingWorker], "direct-vm://googler"))
   }
 }
 

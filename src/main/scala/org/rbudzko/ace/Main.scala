@@ -3,8 +3,6 @@ package org.rbudzko.ace
 import akka.actor.ActorSystem
 import akka.pattern.ask
 import akka.util.Timeout
-import org.rbudzko.ace.httptrip.HttpTrip
-import org.rbudzko.ace.roundtrip.RoundTrip
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,8 +24,8 @@ object Main extends App {
         httpTripResult map ($ => log.info("Http trip responded with {}.", $))
 
         Future.sequence(List(roundTripResult, httpTripResult)) andThen {
-          case _ =>
-            log.info("All futures finished - terminating.")
+          case responses: Any =>
+            log.info("All futures finished - terminating. Responses: {}", responses)
             system.terminate()
         }
 
