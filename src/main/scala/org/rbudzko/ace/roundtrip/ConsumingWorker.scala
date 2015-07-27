@@ -7,7 +7,7 @@ import akka.event.Logging
 private[roundtrip] class ConsumingWorker extends Actor with Consumer {
   private val log = Logging.getLogger(context.system, this)
 
-  override def endpointUri = "vm:output"
+  override def endpointUri = "direct-vm://output"
 
   override def receive: Receive = {
     case CamelMessage(body, headers) =>

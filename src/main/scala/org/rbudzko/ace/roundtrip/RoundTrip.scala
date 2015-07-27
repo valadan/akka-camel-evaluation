@@ -8,7 +8,7 @@ object RoundTrip {
   def build(implicit system: ActorSystem) = {
     CamelExtension(system).context.addRoutes(new RouteBuilder() {
       override def configure() {
-        from("vm:input").to("vm:output")
+        from("direct-vm://input").to("direct-vm://output")
       }
     })
 
