@@ -14,13 +14,16 @@ object Main extends App {
   implicit val system = ActorSystem.create("main-system")
   implicit val timeout = Timeout(5 seconds)
 
-  system.scheduler.scheduleOnce(2 second, () => {
-    args(0) match {
-      case apiKey: String =>
-        val roundTripResult = RoundTrip.build ? "Welcome!"
+  args(0) match {
+    case apiKey: String =>
+      val roundTripActor = RoundTrip.build
+      val httpTripActor = HttpTrip.build(apiKey)
+
+      system.scheduler.scheduleOnce(2 second, () => {
+        val roundTripResult = roundTripActor ? "Welcome!"
         roundTripResult map ($ => log.info("Round trip responded with {}.", $))
 
-        val httpTripResult = HttpTrip.build(apiKey) ? "Robert Budźko"
+        val httpTripResult = httpTripActor ? "Robert Budźko"
         httpTripResult map ($ => log.info("Http trip responded with {}.", $))
 
         Future.sequence(List(roundTripResult, httpTripResult)) andThen {
@@ -30,10 +33,10 @@ object Main extends App {
         }
 
         log.info("All requested.")
-      case _ =>
-        log.error("Google API Key needs to be passed as a first Main argument. Exit!")
-    }
-  })
+      })
+    case _ =>
+      log.error("Google API Key needs to be passed as a first Main argument. Exit!")
+  }
 
   implicit def runnableToFunction(f: () => Unit): Runnable with Object = new Runnable() {
     override def run(): Unit = f()
