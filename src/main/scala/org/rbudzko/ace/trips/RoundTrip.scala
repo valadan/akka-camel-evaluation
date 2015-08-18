@@ -1,8 +1,9 @@
-package org.rbudzko.ace
+package org.rbudzko.ace.trips
 
 import akka.actor.{ActorSystem, Props}
 import akka.camel.CamelExtension
 import org.apache.camel.builder.RouteBuilder
+import org.rbudzko.ace.{ConsumingWorker, ProducingWorker}
 
 object RoundTrip {
   def build(implicit system: ActorSystem) = {

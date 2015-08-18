@@ -5,6 +5,7 @@ import akka.camel.{CamelMessage, Consumer}
 import akka.event.Logging
 import akka.stream.actor.ActorPublisher
 import akka.stream.actor.ActorPublisherMessage.{Cancel, Request}
+import org.rbudzko.ace.trips.{SearchItem, SearchResult}
 
 import scala.annotation.tailrec
 import scala.collection.JavaConversions._

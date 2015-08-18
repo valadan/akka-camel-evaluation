@@ -1,4 +1,4 @@
-package org.rbudzko.ace
+package org.rbudzko.ace.trips
 
 import java.util
 
@@ -11,6 +11,7 @@ import org.apache.camel.Exchange
 import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.model.dataformat.JsonLibrary
 import org.codehaus.jackson.annotate.{JsonIgnoreProperties, JsonProperty}
+import org.rbudzko.ace.{ConsumingPublisher, ProducingWorker}
 import org.slf4j.LoggerFactory
 
 object HttpTrip {
