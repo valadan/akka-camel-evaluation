@@ -1,7 +1,25 @@
-var exampleSocket = new WebSocket("ws://localhost:9292/echo");
-exampleSocket.onopen = function (event) {
-    exampleSocket.send("Here's some text that the server is urgently awaiting!");
+var akkaWs = new WebSocket("ws://localhost:9393/akka");
+
+akkaWs.onopen = function (event) {
+    for (var i = 0; i < 10; i++) {
+        setTimeout(
+            function () {
+                akkaWs.send("Akka msg.");
+            },
+            i * 1000
+        )
+    }
 };
-exampleSocket.onmessage = function (event) {
-        console.log("ddd: " + event)
+
+var camelWs = new WebSocket("ws://localhost:9292/camel");
+
+camelWs.onopen = function (event) {
+    for (var i = 0; i < 10; i++) {
+        setTimeout(
+            function () {
+                camelWs.send("Camel msg.");
+            },
+            i * 1000
+        )
+    }
 };

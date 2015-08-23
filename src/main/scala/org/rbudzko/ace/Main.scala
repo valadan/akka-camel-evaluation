@@ -2,6 +2,7 @@ package org.rbudzko.ace
 
 import akka.actor.ActorSystem
 import akka.pattern.ask
+import akka.stream.ActorMaterializer
 import akka.util.Timeout
 import org.rbudzko.ace.trips.{WebSocketTrip, RoundTrip, HttpTrip}
 import org.slf4j.LoggerFactory
@@ -13,9 +14,11 @@ import scala.concurrent.duration._
 object Main extends App {
   implicit val log = LoggerFactory.getLogger(classOf[App])
   implicit val system = ActorSystem.create("main-system")
+  implicit val materializer = ActorMaterializer.create(system)
   implicit val timeout = Timeout(5 seconds)
 
   WebSocketTrip.buildCamel
+  WebSocketTrip.buildAkka
 
   args(0) match {
     case apiKey: String =>
