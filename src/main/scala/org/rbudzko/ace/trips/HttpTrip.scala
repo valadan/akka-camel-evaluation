@@ -18,9 +18,7 @@ object HttpTrip {
 
   implicit val logger = LoggerFactory.getLogger(HttpTrip.getClass)
 
-  def build(apiKey: String)(implicit system: ActorSystem) = {
-    implicit val materializer = ActorMaterializer.create(system)
-
+  def build(apiKey: String)(implicit system: ActorSystem, materializer: ActorMaterializer) = {
     CamelExtension(system).context.addRoutes(new RouteBuilder() {
       override def configure() {
         from("direct-vm://googler")
