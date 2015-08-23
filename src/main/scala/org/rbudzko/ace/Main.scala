@@ -3,6 +3,7 @@ package org.rbudzko.ace
 import akka.actor.ActorSystem
 import akka.pattern.ask
 import akka.util.Timeout
+import org.rbudzko.ace.trips.{WebSocketTrip, RoundTrip, HttpTrip}
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,6 +14,8 @@ object Main extends App {
   implicit val log = LoggerFactory.getLogger(classOf[App])
   implicit val system = ActorSystem.create("main-system")
   implicit val timeout = Timeout(5 seconds)
+
+  WebSocketTrip.buildCamel
 
   args(0) match {
     case apiKey: String =>
@@ -29,7 +32,6 @@ object Main extends App {
         Future.sequence(List(roundTripResult, httpTripResult)) andThen {
           case responses: Any =>
             log.info("All futures finished - terminating. Responses: {}", responses)
-            system.terminate()
         }
 
         log.info("All requested.")
